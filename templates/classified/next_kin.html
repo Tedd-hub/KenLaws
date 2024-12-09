@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+{%load static%}
+{%load crispy_forms_tags%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next of kin Application Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Toastify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- Add Toastify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+</head>
+
+{% if messages %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        {% for message in messages %}
+        Toastify({
+            text: "{{ message }}",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            backgroundColor: "{{ message.tags|default:'blue' }}",
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+        }).showToast();
+        {% endfor %}
+    });
+</script>
+{% endif %}
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
+        <div class="flex flex-col items-center justify-center">
+            <img src="{%static 'media/ttb.png'%}" class="w-24 h-24 mt-2" alt="">
+            <flex class="flex-col">
+                <h6 class="text-sm font-bold">Brian's Attorney Law.</h6>
+
+
+            </flex>
+        </div>
+        <div class="flex gap-3 justify-center items-center">
+            <img src="{%static 'media/ttf.png'%}" class="w-10 h-10 mt-2" alt="">
+            <h1 class="text-2xl font-bold text-center text-gray-800">Next of kin</h1>
+            <img src="{%static 'media/ttf.png'%}" class="w-10 h-10" alt="">
+
+        </div>
+        <br>
+        <p class="text-center text-xs mb-3">Let us help you unite with your spouse.</p>
+
+        <div class="container">
+            <div class="max-w-3xl alert alert-info mb-6 shadow-md"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" class="w-6 h-6 text-white mx-4 stroke-current">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                    </path>
+                </svg>
+                <div>
+                    <div class="font-bold text-white text xs"><!---->IMPORTANT INFO <!----></div>
+                    <div class="text-xs text-white"><!---->Any details entered here is 100% secure. Your details will
+                        not be seen
+                        by a third party for security purposes.<!----></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="container my-3"> -->
+        <form method="post" class="w-full flex flex-col space-y-3">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="form-control">
+                <label class="label cursor-pointer">
+                    <span class="label-text">Do not share my info</span>
+                    <input type="checkbox" checked="checked" class="checkbox checkbox-primary" />
+                </label>
+            </div>
+            <hr>
+
+            <div class="space-y-4">
+                <h1 class="h3 fw-bold">Finish up</h1>
+                <!-- Accordion Item 1: Pay with Gift Card -->
+                <div class="accordion-item border border-gray-200 rounded-md">
+                    <button type="button"
+                        class="accordion-button flex items-center justify-between w-full p-4 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <span class="text-lg font-medium text-gray-700">Pay with Gift Card</span>
+                        <i class='bx bx-chevron-down text-2xl text-gray-500 transition-transform duration-200'></i>
+                    </button>
+                    <div class="accordion-content hidden p-4 bg-white">
+                        <small class="text-primary">Ensure the gift card amount matches the payment plan amount.</small>
+                        <form method="post" enctype="multipart/form-data" class="space-y-4" id="credit-card-form">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit"
+                                class="w-full bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                id="submit-button" disabled>
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 2: Pay with Bitcoin BTC -->
+                <div class="accordion-item border border-gray-200 rounded-md">
+                    <button type="button"
+                        class="accordion-button flex items-center justify-between w-full p-4 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <span class="text-lg font-medium text-gray-700">Pay with Bitcoin BTC</span>
+                        <i class='bx bx-chevron-down text-2xl text-gray-500 transition-transform duration-200'></i>
+                    </button>
+                    <div class="accordion-content hidden p-4 bg-gray-100">
+                        <p class="text-center mb-6 text-warning">Powered by Binance.</p>
+                        <div class="flex flex-col items-center">
+                            <i>Scan to pay</i>
+                            <img src="{% static 'shop_media/BTC.jpg' %}" alt="Bitcoin Payment QR Code"
+                                class="w-32 h-32 object-cover">
+                            <br>
+                            <i>Or</i>
+                            <h6 class="h6 fw-bold text-primary" id="copyTextBTC">1Kqjt8SDJ2PYMxoEfLyPDPcYcx4zhURoGY</h6>
+                            <button id="copyButtonBTC" class="bg-blue-50 rounded-3 text-primary w-48 px-3 py-2">
+                                <i class='bx bx-copy-alt'></i> Copy address
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 3: Pay with Bitcoin Cash BCH -->
+                <div class="accordion-item border border-gray-200 rounded-md">
+                    <button type="button"
+                        class="accordion-button flex items-center justify-between w-full p-4 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <span class="text-lg font-medium text-gray-700">Pay with Bitcoin Cash BCH</span>
+                        <i class='bx bx-chevron-down text-2xl text-gray-500 transition-transform duration-200'></i>
+                    </button>
+                    <div class="accordion-content hidden p-4 bg-gray-100">
+                        <p class="text-center mb-6 text-warning">Powered by Binance.</p>
+                        <div class="flex flex-col items-center">
+                            <i>Scan to pay</i>
+                            <img src="{% static 'shop_media/BCH.jpg' %}" alt="Bitcoin Cash Payment QR Code"
+                                class="w-32 h-32 object-cover">
+                            <br>
+                            <i>Or</i>
+                            <h6 class="h6 fw-bold text-primary" id="copyTextBCH">1Q7A54LXGA4sQotxgSoGzBKzkbEATFthUw</h6>
+                            <button id="copyButtonBCH" class="bg-blue-50 rounded-3 text-primary w-48 px-3 py-2">
+                                <i class='bx bx-copy-alt'></i> Copy address
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional: Additional Accordion Items -->
+
+                <!-- Open the modal using ID.showModal() method -->
+                <dialog id="my_modal_1" class="modal">
+                    <div class="modal-box">
+                        <h3 class="text-lg font-bold">Feedback</h3>
+                        <p class="py-4 text-center text-4xl"><i class='bx bx-check-circle'></i></p>
+                        <p class="text-center">We will review your details and update your account accordingly.</p>
+                        <small class="text-primary text-center">Do not close this page yet.</small>
+
+                        <div class="modal-action">
+                            <form method="dialog">
+                                <!-- if there is a button in form, it will close the modal -->
+                                <button class="btn">Ok</button>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>
+                <!-- Payment Confirmation Section -->
+
+
+                <div class="bg-gray-100 flex items-center justify-center p-4 rounded-md">
+                    <div class="bg-white p-6 rounded-lg shadow-md w-full">
+                        <div class="flex flex-col my-3">
+                            <div class="mb-4">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" id="paymentCheckbox"
+                                        class="form-checkbox h-5 w-5 text-blue-600">
+                                    <span class="ml-2 text-gray-700">
+                                        I have made payments for <span class="text-blue-600 font-bold">BTC</span>.
+                                    </span>
+                                </label>
+                            </div>
+                            <button id="finishButton" onclick="my_modal_1.showModal()"
+                                class="btn bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled>
+                                Finish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div id="successMessage" class="mt-4 text-green-600 text-center hidden">
+                    Card added successfully!
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary rounded-5 w-full my-3">Submit</button>
+        </form>
+        <!-- </div> -->
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Accordion Functionality
+            const accordionItems = document.querySelectorAll('.accordion-item');
+
+            accordionItems.forEach(item => {
+                const button = item.querySelector('.accordion-button');
+                const content = item.querySelector('.accordion-content');
+                const icon = button.querySelector('i');
+
+                button.addEventListener('click', () => {
+                    // Toggle the hidden class on the content
+                    content.classList.toggle('hidden');
+
+                    // Toggle the chevron icon
+                    icon.classList.toggle('bx-chevron-up');
+                    icon.classList.toggle('bx-chevron-down');
+                });
+            });
+
+            // Copy to Clipboard Functionality
+            const copyToClipboard = (text, button) => {
+                navigator.clipboard.writeText(text)
+                    .then(() => {
+                        // Temporarily change button text to indicate success
+                        const originalHTML = button.innerHTML;
+                        button.innerHTML = '<i class="bx bx-check"></i> Copied!';
+                        setTimeout(() => {
+                            button.innerHTML = originalHTML;
+                        }, 2000);
+                    })
+                    .catch(() => {
+                        // Indicate failure
+                        const originalHTML = button.innerHTML;
+                        button.innerHTML = '<i class="bx bx-error"></i> Failed!';
+                        setTimeout(() => {
+                            button.innerHTML = originalHTML;
+                        }, 2000);
+                    });
+            };
+
+            // Event Listeners for Copy Buttons
+            const copyButtons = document.querySelectorAll('[id^="copyButton"]');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const targetId = this.id.replace('copyButton', 'copyText');
+                    const textToCopy = document.getElementById(targetId).innerText;
+                    copyToClipboard(textToCopy, this);
+                });
+            });
+
+            // Form Validation for Credit Card Form
+            const form = document.getElementById("credit-card-form");
+            const submitButton = document.getElementById("submit-button");
+
+            if (form && submitButton) {
+                const toggleSubmitButton = () => {
+                    const allFieldsFilled = Array.from(form.querySelectorAll("input, select, textarea")).every(input => {
+                        // For checkboxes and radio buttons, check if they are checked
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            return input.checked;
+                        }
+                        return input.value.trim() !== "";
+                    });
+                    submitButton.disabled = !allFieldsFilled;
+                };
+
+                // Initial check
+                toggleSubmitButton();
+
+                // Add event listeners to form inputs
+                form.addEventListener("input", toggleSubmitButton);
+            }
+
+            // Payment Checkbox and Finish Button Functionality
+            const paymentCheckbox = document.getElementById('paymentCheckbox');
+            const finishButton = document.getElementById('finishButton');
+
+            if (paymentCheckbox && finishButton) {
+                paymentCheckbox.addEventListener('change', function () {
+                    finishButton.disabled = !this.checked;
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
